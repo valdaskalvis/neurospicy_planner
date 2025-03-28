@@ -1,0 +1,101 @@
+Upon start:
+- check settings file for name, if not found, run first time setup
+check last_signed
+if last_signed NOT today:
+    todayify tasks
+    check tasks with today deadline, if >10, ask for rescheduling
+    recommend rescheduling by certain criteria
+
+FIRST TIME SETUP:
+- Name
+- Introduction and tutorial
+
+MENU:
+
+Name
+
+Points: (daily or weekly?)
++ point calculation and display
+
+Shopping list button
++ separate scoring system
+
+Projects button
++ shows list of projects, can open project to see tasks or add a new project
++ completion of project - extra points (equal to tasks in project)
+
+Welcome message
++ multiple motivational messages
+
+Task database and connections
+To do:
+    checkpoint for done
+    x for cancel
+    -> for reschedule (pick date vs default: tomorrow)
+    priority badge (fire, today, sometime)
+Done today:
+    strikethrough + restore button
+
+
+Upcoming tomorrow:
+    checkpoint for done
+    x for cancel
+    -> for reschedule (pick date vs default: tomorrow)
+    priority badge (fire, today, sometime)
+
+Cancelled today:
+tasks list with restore button
+
+Random:
+random task from to do NOT today
+randint - random task from cancelled
+randint - random task from done
+
+Buttons at the bottom:
+    create new task + everything needed
+    Show all tasks (to do)
+    Show all done tasks
+    show all cancelled tasks
+    Setup (setting up defaults, task types etc.)
+    Add background art
+
+Background art loading
+
+BUTTON FUNCTIONALITY:
+CLOSE APP
+SETTINGS
+
+IF DONE:
+    change status
+    add points (1.5x points if deadline not today)
+    if regular, reschedule by next {regularity}
+CANCEL:
+    remove from list
+    move to bottom
+
+SETUP file:
+default settings for all important values
+SETUP:
+    Name
+    Default values: points, regularity, rescheduling, deadline, urgency, cancelled tasks/done tasks WHAT DO
+
+DATABASE:
+    number
+    task name
+    creation date
+    status: done, to do (default), cancelled
+    regularity: daily, weekly (default), monthly, yearly
+    deadline: today, tomorrow (default), choose date
+    type: general (default: not shown), work, home maintenance, self care, shopping, taxes, health
+    project: none (default), project name
+
+EOD:
+motivational message
+reschedule all tasks (if to do and deadline today -> deadline tomorrow)
+if task created
+
+
+EXTRA:
+random reminders
+upcoming tasks - tomorrow vs longer time period (choose)
+
