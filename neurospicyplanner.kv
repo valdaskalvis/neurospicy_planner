@@ -15,12 +15,11 @@ WindowManager:
         id: sett
     HelpWindow:
         id: help
-    PersonalTask:
-        id: addpersonal
-    WorkTask:
-        id: addwork
+    NewPersonalWindow:
+        id: new_personal
 
-# formatting the most-used button for the app
+
+# formatting the most-used buttons for the app
 <BlueButton>:
     pos_hint: {"center_x": 0.5}
     background_normal: ""
@@ -73,11 +72,14 @@ WindowManager:
         GridLayout: # main content + button to switch to work side
             cols: 2
 
-            Label:
-                font_name: "OpenDyslexic3-Regular"
-                root.show_personal()
-                text: "Completed:"
-                root.show_completed()
+            GridLayout:
+                cols: 1
+                Label:
+                    font_name: "OpenDyslexic3-Regular"
+                    text: "To do:"
+                Label:
+                    font_name: "OpenDyslexic3-Regular"
+                    text: "Completed:"
 
             Button:
                 text: ""
@@ -96,6 +98,7 @@ WindowManager:
             BlueButton: # creating new task
                 text: "+"
                 on_release:
+                    app.root.current = "new_personal"
 
             BlueButton: # shopping list
                 text: "Shopping"
@@ -284,17 +287,20 @@ WindowManager:
             on_release:
                 app.root.current = "main"
 
+<NewPersonalWindow>:
+    name: "new_personal"
 
+    GridLayout:
+        cols: 1
+        Label:
+            font_name: "OpenDyslexic3-Regular"
+            text: "Add new personal task"
+            halign: "center"
+            valign: "center"
 
-
-
-
-
-
-
-
-
-
-
-
-
+        BlueButton: # exiting
+            size_hint_y: None
+            size: self.width, dp(48)
+            text: "Close"
+            on_release:
+                app.root.current = "main"
