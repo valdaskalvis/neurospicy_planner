@@ -1,0 +1,12 @@
+Welcome to NeuroSpicy Planner App!
+Straight to the point:
+
+Top left corner of main screen indicates whether you're looking at your personal or work tasks.
+Middle top of the screen - your score for today. It's not implemented yet, but you can bet it's coming soon!
+Top right corner leads to settings where you can change your name and other things.
+Middle of the screen - the meat of the app, your tasks. You can complete, cancel, delete and reschedule them.
+See the column on the right side? Press on it and you'll go to the screen where your work tasks reside. Press the column on the left to get back.
+The "+" at the bottom left lets you - you guessed it - to create a new task. Go for it!
+Middle-bottom is your easy-access Shopping list. No fancy functions there - just add your groceries whenever they come to mind, or mark them as purchased.
+Bottom right is a button that will lead you back here, if something will seem complicated to you. We certainly hope that you won't need to come back, because that would mean that we failed!
+That's all - have fun!

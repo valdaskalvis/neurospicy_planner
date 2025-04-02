@@ -1,5 +1,5 @@
 Upon start:
-- check settings file for name, if not found, run first time setup
+google log in? calendar sync?
 check last_signed
 if last_signed NOT today:
     todayify tasks
@@ -8,19 +8,21 @@ if last_signed NOT today:
 
 FIRST TIME SETUP:
 - Name
-- Introduction and tutorial
+- Expanded and prettified tutorial
+
+Popups?
 
 MENU:
 
 Name
-
 Points: (daily or weekly?)
 + point calculation and display
 
-Shopping list button
-+ separate scoring system
+Personal vs Work screen on swipe (maybe also all categories with tasks available?)
 
-Projects button
+Shopping list: separate scoring system
+
+Projects
 + shows list of projects, can open project to see tasks or add a new project
 + completion of project - extra points (equal to tasks in project)
 
@@ -29,22 +31,16 @@ Welcome message
 
 Task database and connections
 To do:
-    checkpoint for done
-    x for cancel
     -> for reschedule (pick date vs default: tomorrow)
-    priority badge (fire, today, sometime)
+    priority badge? (fire, today, sometime)
 Done today:
     strikethrough + restore button
 
-
-Upcoming tomorrow:
+Upcoming tomorrow list:
     checkpoint for done
     x for cancel
     -> for reschedule (pick date vs default: tomorrow)
     priority badge (fire, today, sometime)
-
-Cancelled today:
-tasks list with restore button
 
 Random:
 random task from to do NOT today
@@ -52,18 +48,15 @@ randint - random task from cancelled
 randint - random task from done
 
 Buttons at the bottom:
-    create new task + everything needed
-    Show all tasks (to do)
-    Show all done tasks
-    show all cancelled tasks
-    Setup (setting up defaults, task types etc.)
-    Add background art
+    Search tasks
+    Setings setup (setting up defaults, task types etc.)
 
-Background art loading
+Background - prettify
 
 BUTTON FUNCTIONALITY:
 CLOSE APP
 SETTINGS
+PRESS ON TASK - EDIT MENU
 
 IF DONE:
     change status
@@ -80,22 +73,17 @@ SETUP:
     Default values: points, regularity, rescheduling, deadline, urgency, cancelled tasks/done tasks WHAT DO
 
 DATABASE:
-    number
-    task name
-    creation date
-    status: done, to do (default), cancelled
+    status: cancelled
     regularity: daily, weekly (default), monthly, yearly
-    deadline: today, tomorrow (default), choose date
-    type: general (default: not shown), work, home maintenance, self care, shopping, taxes, health
+    deadline: choose date
     project: none (default), project name
 
 EOD:
 motivational message
 reschedule all tasks (if to do and deadline today -> deadline tomorrow)
-if task created
-
 
 EXTRA:
 random reminders
-upcoming tasks - tomorrow vs longer time period (choose)
+upcoming tasks - show just tomorrow vs longer time period (choose)
+translation for second language
 

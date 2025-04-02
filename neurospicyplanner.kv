@@ -1,0 +1,300 @@
+#:import Factory kivy.factory.Factory
+
+# window list
+WindowManager:
+    id: window_manager
+    MainWindow:
+        id: main
+    FirstWindow:
+        id: first_time
+    ShoppingWindow:
+        id: shopping
+    WorkWindow:
+        id: work
+    SettingsWindow:
+        id: sett
+    HelpWindow:
+        id: help
+    PersonalTask:
+        id: addpersonal
+    WorkTask:
+        id: addwork
+
+# formatting the most-used button for the app
+<BlueButton>:
+    pos_hint: {"center_x": 0.5}
+    background_normal: ""
+    background_color: (0.2, 0.6, 0.8, 1)
+    color: (1, 1, 1, 1)
+    font_name: "OpenDyslexic3-Regular"
+    text_size: self.size
+    halign: "center"
+    valign: "middle"
+<CancelButton>:
+    background_normal: ""
+    background_color: (0.2, 0.6, 0.8, 1)
+    color: (1, 1, 1, 1)
+    font_name: "OpenDyslexic3-Regular"
+    text_size: self.size
+    halign: "center"
+    valign: "middle"
+<CompleteButton>:
+    background_normal: ""
+    background_color: (0.2, 0.6, 0.8, 1)
+    color: (1, 1, 1, 1)
+    font_name: "OpenDyslexic3-Regular"
+    text_size: self.size
+    halign: "center"
+    valign: "middle"
+
+<MainWindow>: # main app window for personal tasks
+    name: "main"
+    GridLayout:
+        cols: 1
+
+        GridLayout: # functions at the top
+            cols: 3
+            size_hint_y: None
+            size: self.width, dp(48)
+
+            Label: # personal side
+                font_name: "OpenDyslexic3-Regular"
+                text: "Personal tasks"
+
+            Label: # points
+                font_name: "OpenDyslexic3-Regular"
+                text: "Points: TBD"
+
+            BlueButton: # settings
+                text: "Settings"
+                on_release:
+                    app.root.current = "sett"
+
+        GridLayout: # main content + button to switch to work side
+            cols: 2
+
+            Label:
+                font_name: "OpenDyslexic3-Regular"
+                root.show_personal()
+                text: "Completed:"
+                root.show_completed()
+
+            Button:
+                text: ""
+                size_hint: 0.1, 0.1
+                pos_hint: {"x": 1, "y": 0.5}
+                on_release:
+                    app.root.transition.direction = 'left'
+                    app.root.current = "work"
+
+
+        GridLayout: # bottom functions
+            cols: 3
+            size_hint_y: None
+            size: self.width, dp(48)
+
+            BlueButton: # creating new task
+                text: "+"
+                on_release:
+
+            BlueButton: # shopping list
+                text: "Shopping"
+                on_release:
+                    app.root.current = "shopping"
+
+            BlueButton: # help
+                text: "Help"
+                on_release:
+                    app.root.current = "help"
+
+
+<FirstWindow>: # runs when no user is found in json file, creates user, then goes to Help screen
+    name: "first_time"
+    user_name: user_name
+    GridLayout:
+        cols: 1
+        size: root.width - 200, root.height
+        Label:
+            font_name: "OpenDyslexic3-Regular"
+            text: "Welcome to NeuroSpicy Planner!\nThis is your first time using the app. We'll start with a short tutorial, but first please let us know your name. You can change it later in the settings."
+            halign: "center"
+            valign: "center"
+            text_size: self.size
+            pos_hint: {"x": 0.1, "y": 0.1}
+
+        TextInput:
+            id: user_name
+            multiline: False
+            font_name: "OpenDyslexic3-Regular"
+            hint_text: "Enter your name"
+            size_hint: 0.2, 0.2
+            pos_hint: {"x": 0.1, "y": 0.1}
+
+        BlueButton:
+            font_name: "OpenDyslexic3-Regular"
+            text: "Submit"
+            size_hint: 1, 0.2
+            on_release:
+                root.get_username()
+                app.root.current = "first_time" if user_name.text == "" else "help"
+
+<SettingsWindow>:
+    name: "sett"
+    user_name: user_name
+    GridLayout:
+        cols: 1
+        size: root.width - 200, root.height
+        Label:
+            font_name: "OpenDyslexic3-Regular"
+            text: "So you reconsidered your name!\nPlease let us know what to call you from now on. You can change it again later in the settings."
+            halign: "center"
+            valign: "center"
+            text_size: self.size
+            pos_hint: {"x": 0.1, "y": 0.1}
+
+        TextInput:
+            id: user_name
+            multiline: False
+            font_name: "OpenDyslexic3-Regular"
+            hint_text: "Enter your new name"
+            size_hint: 0.2, 0.2
+            pos_hint: {"x": 0.1, "y": 0.1}
+
+        GridLayout:
+            cols: 2
+            size_hint_y: None
+            size: self.width, dp(48)
+
+            BlueButton:
+                font_name: "OpenDyslexic3-Regular"
+                text: "Submit"
+                on_release:
+                    root.get_username()
+                    app.root.current = "sett" if user_name.text == "" else "main"
+
+            BlueButton:
+                font_name: "OpenDyslexic3-Regular"
+                text: "Cancel"
+                on_release:
+                    app.root.current = "main"
+
+<ShoppingWindow>:
+    name: "shopping"
+    GridLayout:
+        cols: 1
+        size: root.width - 200, root.height
+        Label:
+            font_name: "OpenDyslexic3-Regular"
+            text: "Shopping List"
+            halign: "center"
+            valign: "center"
+            text_size: self.size
+            pos_hint: {"x": 0.1, "y": 0.1}
+
+        GridLayout:
+            cols: 2
+            size_hint_y: None
+            size: self.width, dp(48)
+            BlueButton:
+                font_name: "OpenDyslexic3-Regular"
+                text: "+"
+                size_hint: 1, 0.2
+                on_release:
+            BlueButton:
+                font_name: "OpenDyslexic3-Regular"
+                text: "Close"
+                size_hint: 1, 0.2
+                on_release:
+                    app.root.current = "main"
+
+<WorkWindow>:
+    name: "work"
+    GridLayout:
+        cols: 1
+
+        GridLayout: # functions at the top
+            cols: 3
+            size_hint_y: None
+            size: self.width, dp(48)
+
+            Label: # work side
+                font_name: "OpenDyslexic3-Regular"
+                text: "Work tasks"
+
+            Label: # points
+                font_name: "OpenDyslexic3-Regular"
+                text: "Points: TBD"
+
+            BlueButton: # settings
+                text: "Settings"
+                on_release:
+                    app.root.current = "sett"
+
+        GridLayout: # main content + button to switch to personal side
+            cols: 2
+
+            Button:
+                text: ""
+                size_hint: 0.1, 0.1
+                pos_hint: {"x": 0.1, "y": 0.5}
+                on_release:
+                    app.root.transition.direction = 'right'
+                    app.root.current = "main"
+
+            Label:
+                font_name: "OpenDyslexic3-Regular"
+                text: "Welcome to NeuroSpicy Planner!"
+
+        GridLayout: # bottom functions
+            cols: 2
+            size_hint_y: None
+            size: self.width, dp(48)
+
+            BlueButton: # creating new task
+                text: "+"
+                on_release:
+
+            BlueButton: # help
+                text: "Help"
+                on_release:
+                    app.root.current = "help"
+
+<HelpWindow>
+    name: "help"
+    GridLayout:
+        cols: 1
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            Label:
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                padding: 10, 10
+                font_name: "OpenDyslexic3-Regular"
+                text: "Welcome to NeuroSpicy Planner App!\nStraight to the point:\nTop left corner of main screen indicates whether you're looking at your personal or work tasks.\nMiddle top of the screen - your score for today. It's not implemented yet, but you can bet it's coming soon!\nTop right corner leads to settings where you can change your name and other things.\nMiddle of the screen - the meat of the app, your tasks. You can complete, cancel, delete and reschedule them.\nSee the column on the right side? Press on it and you'll go to the screen where your work tasks reside. Press the column on the left to get back.\nThe + at the bottom left lets you - you guessed it - to create a new task. Go for it!\nMiddle-bottom is your easy-access Shopping list. No fancy functions there - just add your groceries whenever they come to mind, or mark them as purchased.\nBottom right is a button that will lead you back here, if something will seem complicated to you. We certainly hope that you won't need to come back, because that would mean that we failed!\nThat's all - have fun!"
+                halign: "center"
+                valign: "center"
+
+        BlueButton: # exiting help
+            size_hint_y: None
+            size: self.width, dp(48)
+            text: "Close"
+            on_release:
+                app.root.current = "main"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
