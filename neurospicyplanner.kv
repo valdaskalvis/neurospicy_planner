@@ -1,23 +1,5 @@
 #:import Factory kivy.factory.Factory
 
-# window list
-WindowManager:
-    id: window_manager
-    MainWindow:
-        id: main
-    FirstWindow:
-        id: first_time
-    ShoppingWindow:
-        id: shopping
-    WorkWindow:
-        id: work
-    SettingsWindow:
-        id: sett
-    HelpWindow:
-        id: help
-    NewPersonalWindow:
-        id: new_personal
-
 
 # formatting the most-used buttons for the app
 <BlueButton>:
@@ -76,7 +58,11 @@ WindowManager:
                 cols: 1
                 Label:
                     font_name: "OpenDyslexic3-Regular"
-                    text: "To do:"
+                    text: "To do today:"
+                ScrollableList:
+                    id: scrollable_list
+                    font_name: "OpenDyslexic3-Regular"
+
                 Label:
                     font_name: "OpenDyslexic3-Regular"
                     text: "Completed:"
@@ -325,7 +311,7 @@ WindowManager:
                 size_hint_y: None
                 font_name: "OpenDyslexic3-Regular"
                 size: self.width, dp(48)
-                text: "Cancel"
+                text: "Back"
                 on_release:
                     root.add_reset()
                     app.root.current = "main"

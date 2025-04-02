@@ -48,7 +48,7 @@ class Database:
         )
 # getting all personal tasks (non-work):
     def get_personal(self):
-        result = self.query_db("SELECT * FROM tasks WHERE work=0 AND COMPLETED=0;")
+        result = self.query_db("SELECT id, task, completed FROM tasks WHERE work=0 AND completed=0;")
         return result.fetchall()
 
 # getting all completed personal tasks (non-work):

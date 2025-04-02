@@ -27,13 +27,34 @@ with open('settings.json', 'r') as file:
     settings = json.load(file)
 username = settings["user"]
 
+# creating a scrollable list for showing tasks
+class ScrollableList(ScrollView):
+    effect_cls = ScrollEffect
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.height = 400
+        self.task_list = BoxLayout(
+            orientation="vertical",
+            size_hint_y = None,
+            spacing=14
+        )
+        self.task_list.bind(children=self.adjust_height)
+        self.add_widget(self.task_list)
+# adjusting height when the amount of tasks changes
+    def adjust_height(self, *args):
+        ITEM_HEIGHT = 40
+        SPACING = 14
+        self.task_list.height = (ITEM_HEIGHT + SPACING) * (
+            len(self.task_list.children)
+        ) - SPACING
+
 # screenmanager
 class WindowManager(ScreenManager):
-    # def __init__(self, db, **kwargs):
-    #     super("window_manager", db).__init__()
+    def __init__(self, db, **kwargs):
+        super().__init__(**kwargs)
         # adding database
         # self.window_manager = window_manager
-        # self.db = db
+        self.db = db
 # function to check if the user is new
     def starting_select(self):
         if username:
@@ -45,29 +66,30 @@ class WindowManager(ScreenManager):
         if task == "":
             return
         self.db.add_task(task)
-        self.tasks.clear_widgets()
-#
-#     # shows tasks to be done
-#     def show_personal(self):
-#         tasks = self.db.get_personal()
-#         for task in tasks:
-#             id, task, completed = task
-#             task = Task(self, id, task, completed)
-#             self.tasks.add_widget(task)
-#     # shows completed tasks
-#     def show_completed(self):
-#         tasks = self.db.get_completed()
-#         for task in tasks:
-#             id, task, completed = task
-#             task = Task(self, id, task, completed)
-#             self.tasks.add_widget(task)
-#
-#     def complete(self, id):
-#         for task in self.tasks.children:
-#             if task.id == id:
-#                 self.db.complete(id)
-#                 task.complete_button.disabled = True
-#
+        self.task_list.clear_widgets()
+
+
+
+
+    # # shows completed tasks
+    # def show_completed(self):
+    #     tasks = self.db.get_completed()
+    #     for task in tasks:
+    #         id, task, completed = task
+    #         task = Task(self, id, task, completed)
+    #         self.task_list.add_widget(task)
+
+    def complete(self, id):
+        for task in self.tasks.children:
+            if task.id == id:
+                self.db.complete(id)
+                task.complete_button.disabled = True
+
+    # def on_enter(self, *args):
+    #     task_list = []
+    #     self.add_widget(self, task_list)
+
+
 # class for task input with 100 char limit
 class Task_Input(TextInput):
     max_length = 100
@@ -97,24 +119,6 @@ class CancelButton(Button):
 class CompleteButton(Button):
     pass
 
-# task representation: task with buttons for completing and cancelling the task
-# class PersonalTask(BoxLayout):
-#     def __init__(self, WindowManager, id, task, **kwargs):
-#         super().__init__(**kwargs)
-#
-#         self.height = 48
-#         self.id = id
-#         task_box = Button(text=task, size_hint=[0.5, 1])
-#
-#         self.complete_button = CompleteButton(text="Complete", size_hint=[None, 1], width=200, disabled=completed)
-#         self.complete_button.bind(on_release=lambda *args: WindowManager.mark_as_done(id))
-#
-#         delete_button = CancelButton(text="X", size_hint=[None, 1], width=48)
-#         delete_button.bind(on_release=lambda *args: WindowManager.delete_task(id))
-#
-#         self.add_widget(task_box)
-#         self.add_widget(self.complete_button)
-#         self.add_widget(delete_button)
 
 # starting window if the user is new
 class FirstWindow(Screen):
@@ -137,7 +141,62 @@ class SettingsWindow(Screen):
             json.dump(settings, file, indent=2)
 
 class MainWindow(Screen):
-    pass
+    def __init__(self, db, **kwargs):
+        super().__init__(**kwargs)
+        self.db = db
+
+    def on_enter(self):
+        self.show_personal()
+
+    def show_personal(self):
+        tasks = self.db.get_personal()
+        scrollable_list = self.ids.scrollable_list
+        scrollable_list.task_list.clear_widgets()
+        for id, task, completed in tasks:
+            task_unit = PersonalTask(self, id, task, completed)
+            scrollable_list.task_list.add_widget(task_unit)
+
+    def add_task(self, task):
+        if task:
+            self.db.add_task(task)
+            self.show_personal()
+    # ScrollableList() == StringProperty()
+        self.personaltask = PersonalTask(self)
+        self.scrollablelist = ScrollableList()
+        self.task_list = self.scrollablelist.task_list
+        self.task_list.add_widget(self.scrollablelist)
+        self.add_widget(self.scrollablelist)
+
+        # shows tasks to be done
+        # def show_personal(self):
+        #     tasks = self.db.get_personal()
+        #     for task_unit in tasks:
+        #         id, task, completed = task
+        #         task_unit = PersonalTask(self, id, task, completed)
+        #         self.task_list.add_widget(task_unit)
+        # def show_list(self):
+        #     for widget in range(0, len(ScrollableList())):
+        #         ScrollableList(widget)
+# task representation: task with buttons for completing and cancelling the task
+class PersonalTask(BoxLayout):
+    size_hint = [1, None]
+    spacing = 5
+    def __init__(self, window_manager, id, task, completed=False, **kwargs):
+        super().__init__(**kwargs)
+
+        self.height = 48
+        self.id = id
+        task_box = Button(text=task, size_hint=[0.5, 1])
+
+        self.complete_button = CompleteButton(text="Complete", size_hint=[None, 1], width=200, disabled=completed)
+        self.complete_button.bind(on_release=lambda *args: window_manager.complete(id))
+
+        delete_button = CancelButton(text="X", size_hint=[None, 1], width=48)
+        delete_button.bind(on_release=lambda *args: window_manager.delete_task(id))
+
+        self.add_widget(task_box)
+        self.add_widget(self.complete_button)
+        self.add_widget(delete_button)
 
 class ShoppingWindow(Screen):
     pass
@@ -150,13 +209,23 @@ class HelpWindow(Screen):
 
 
 # indicating kv file for the builder
-kv = Builder.load_file("neurospicyplanner.kv")
+# kv = Builder.load_file("neurospicyplanner.kv")
 class NeuroSpicyPlannerApp(App):
-        title = "NeuroSpicy Planner"
-        def build(self):
-            # running the check for new user
-            kv.starting_select()
-            db = Database()
-            return kv
+    title = "NeuroSpicy Planner"
+    kv_file = 'neurospicyplanner.kv'
+    def build(self):
+        db = Database()
+        window_manager = WindowManager(db)
+        window_manager.add_widget(MainWindow(db, name="main"))
+        window_manager.add_widget(FirstWindow(name="first_time"))
+        window_manager.add_widget(SettingsWindow(name="sett"))
+        window_manager.add_widget(ShoppingWindow(name="shopping"))
+        window_manager.add_widget(WorkWindow(name="work"))
+        window_manager.add_widget(HelpWindow(name="help"))
+        window_manager.add_widget(NewPersonalWindow(name="new_personal"))
+        # running the check for new user
+        window_manager.starting_select()
+        return window_manager
 
-NeuroSpicyPlannerApp().run()
+if __name__ == "__main__":
+    NeuroSpicyPlannerApp().run()
