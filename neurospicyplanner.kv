@@ -289,18 +289,43 @@ WindowManager:
 
 <NewPersonalWindow>:
     name: "new_personal"
-
+    newpersonal: newpersonal
     GridLayout:
         cols: 1
-        Label:
+        TextInput:
+            id: newpersonal
             font_name: "OpenDyslexic3-Regular"
-            text: "Add new personal task"
-            halign: "center"
-            valign: "center"
-
-        BlueButton: # exiting
+            multiline: False
+            font_name: "OpenDyslexic3-Regular"
+            hint_text: "Enter a new personal task"
+            pos_hint: {"x": 0.1, "y": 0.1}
+        GridLayout:
+            cols: 3
             size_hint_y: None
             size: self.width, dp(48)
-            text: "Close"
-            on_release:
-                app.root.current = "main"
+            BlueButton:
+                size_hint_y: None
+                font_name: "OpenDyslexic3-Regular"
+                size: self.width, dp(48)
+                text: "Confirm and add new"
+                on_release:
+                    root.read_new()
+                    root.add_reset()
+                    app.root.current = "new_personal"
+            BlueButton:
+                size_hint_y: None
+                font_name: "OpenDyslexic3-Regular"
+                size: self.width, dp(48)
+                text: "Confirm and return"
+                on_release:
+                    root.read_new()
+                    root.add_reset()
+                    app.root.current = "main"
+            BlueButton:
+                size_hint_y: None
+                font_name: "OpenDyslexic3-Regular"
+                size: self.width, dp(48)
+                text: "Cancel"
+                on_release:
+                    root.add_reset()
+                    app.root.current = "main"

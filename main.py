@@ -30,9 +30,10 @@ username = settings["user"]
 # screenmanager
 class WindowManager(ScreenManager):
     # def __init__(self, db, **kwargs):
-    #     super(WindowManager, self).__init__(**kwargs)
+    #     super("window_manager", db).__init__()
         # adding database
-    # self.db = db
+        # self.window_manager = window_manager
+        # self.db = db
 # function to check if the user is new
     def starting_select(self):
         if username:
@@ -67,14 +68,28 @@ class WindowManager(ScreenManager):
 #                 self.db.complete(id)
 #                 task.complete_button.disabled = True
 #
-# # class for task input with 100 char limit
-# class Task_Input(TextInput):
-#     max_length = 100
-#     multiline = False
-#
-#     def input_task(self, *args):
-#         if len(self.text) < self.max_length:
-#             super().insert_text(*args)
+# class for task input with 100 char limit
+class Task_Input(TextInput):
+    max_length = 100
+    multiline = False
+
+    def input_task(self, *args):
+        if len(self.text) < self.max_length:
+            super().insert_text(*args)
+
+class NewPersonalWindow(Screen):
+    # def __init__(self, **kwargs):
+    #     super().__init__()
+    db = Database()
+
+    def read_new(self):
+        newpersonal = self.newpersonal.text
+        self.db.add_task(newpersonal)
+
+    def add_reset(self):
+        self.newpersonal.text = ""
+
+
 
 # buttons for use with tasks
 class CancelButton(Button):
@@ -133,8 +148,6 @@ class WorkWindow(Screen):
 class HelpWindow(Screen):
     pass
 
-class NewPersonalWindow(Screen):
-    pass
 
 # indicating kv file for the builder
 kv = Builder.load_file("neurospicyplanner.kv")
