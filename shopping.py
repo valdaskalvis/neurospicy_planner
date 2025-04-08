@@ -1,1 +1,1 @@
-shopping_list = []
+# File for shopping functions - TBD

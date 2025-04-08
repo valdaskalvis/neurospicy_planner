@@ -28,6 +28,7 @@
     halign: "center"
     valign: "middle"
 
+
 <MainWindow>: # main app window for personal tasks
     name: "main"
     GridLayout:
@@ -127,6 +128,7 @@
                 root.get_username()
                 app.root.current = "first_time" if user_name.text == "" else "help"
 
+
 <SettingsWindow>:
     name: "sett"
     user_name: user_name
@@ -167,6 +169,7 @@
                 on_release:
                     app.root.current = "main"
 
+
 <ShoppingWindow>:
     name: "shopping"
     GridLayout:
@@ -195,6 +198,7 @@
                 size_hint: 1, 0.2
                 on_release:
                     app.root.current = "main"
+
 
 <WorkWindow>:
     name: "work"
@@ -248,6 +252,7 @@
                 on_release:
                     app.root.current = "help"
 
+
 <HelpWindow>
     name: "help"
     GridLayout:
@@ -272,6 +277,7 @@
             text: "Close"
             on_release:
                 app.root.current = "main"
+
 
 <NewPersonalWindow>:
     name: "new_personal"

@@ -23,51 +23,65 @@ class Database:
                 work INTEGER
                 );"""
         self.query_db(query)
-# method for querying database
+
+# Method for querying the database.
     def query_db(self, query, *query_args):
         result = self.cursor.execute(query, [*query_args])
         self.db.commit()
         return result
-# method for adding task with default values
+
+
+# Method for adding a new task with default values.
     def add_task(self, task):
         self.query_db(
             "INSERT INTO tasks VALUES (NULL, ?, NULL, NULL, 0, 0);",
             task,
         )
-# marking task as completed:
+
+
+# Method for marking a task as completed.
     def mark_as_done(self, id):
         self.query_db(
             "UPDATE tasks SET completed=1 WHERE id=?;",
             id,
         )
-# deleting task:
+
+
+# Method for deleting a task.
     def delete_task(self, id):
         self.query_db(
             "UPDATE tasks SET completed=1 WHERE id=?;",
             id,
         )
-# getting all personal tasks (non-work):
+
+
+# Method for getting all personal (non-work) tasks.
     def get_personal(self):
         result = self.query_db("SELECT id, task, completed FROM tasks WHERE work=0 AND completed=0;")
         return result.fetchall()
 
-# getting all completed personal tasks (non-work):
+
+# Method for getting all completed personal (non-work) tasks.
     def get_completed(self):
         result = self.query_db("SELECT * FROM tasks WHERE work=0 AND COMPLETED=1;")
         return result.fetchall()
 
-# method for adding work task with default values
+
+# Method for adding a new work task with default values.
     def add_work_task(self, task):
         self.query_db(
             "INSERT INTO tasks VALUES (NULL, ?, DEFAULT, DEFAULT, 0, 1);",
             task,
         )
-# getting all work tasks:
+
+
+# Method for getting all work tasks.
     def get_work(self):
         result = self.query_db("SELECT * FROM tasks WHERE work=1;")
         return result.fetchall()
 
-# rescheduling the task for tomorrow - TBD
+
+# Method for rescheduling a task for tomorrow - TBD
     def reschedule(self, task):
         pass
 
