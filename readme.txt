@@ -1,5 +1,6 @@
 Hello!
-This is work in progress, not suitable for daily use yet.
+This is work in an early stage still, far from suitable for daily use yet.
+
 This is a task scheduling app aimed to help neurodivergent people
 overcome their shortcomings with using a planner. Usually neurodivergent
 people get excited to use a new planner only to get overwhelmed by the
